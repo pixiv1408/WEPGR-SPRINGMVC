@@ -1,10 +1,5 @@
-<%-- 
-    Document   : Editfood
-    Created on : May 11, 2021, 12:37:33 AM
-    Author     : DELL
---%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
