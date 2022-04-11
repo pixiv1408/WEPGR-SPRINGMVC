@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="        
-		http://www.springframework.org/schema/beans        
-		http://www.springframework.org/schema/beans/spring-beans.xsd        
-		http://www.springframework.org/schema/mvc        
-		http://www.springframework.org/schema/mvc/spring-mvc.xsd        
-		http://www.springframework.org/schema/context        
-		http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 	
 	
 	<context:component-scan
@@ -18,10 +21,29 @@
 		
 	<context:annotation-config />
 	<mvc:annotation-driven />
-	
+	<mvc:resources mapping="/Theme/**"
+		location="/Theme/" />	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp" />		
-		<!-- mvc:resources mapping="templates/**" location="/,classpath://WEB-INF/templates" 
-		cache-period="1000"></mvc:resources> -->
+		
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		p:url="jdbc:sqlserver://localhost:1433;Database=WEBPROJECT;encrypt=true;trustServerCertificate=true"
+		p:username="sa" p:password="Thanh 02061965">
+	</bean>
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<tx:annotation-driven proxy-target-class="true"
+		transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 </beans>
